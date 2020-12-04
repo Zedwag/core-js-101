@@ -4,7 +4,7 @@
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String   *
  *                                                                                           *
  ******************************************************************************************* */
-
+/* eslint-disable */
 
 /**
  * Returns the result of concatenation of two strings.
@@ -66,7 +66,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  return value.slice(7);
+  return value.split(/ |!/).slice(1).join(' ').trim();
 }
 
 
@@ -141,8 +141,8 @@ function removeFirstOccurrences(str, value) {
  *   '<span>' => 'span'
  *   '<a>' => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.slice(1, str.length - 1);
 }
 
 
@@ -203,8 +203,37 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let output = ''
+  for (let i = 0; i < height; i += 1) {
+    for (let j = 0; j < width; j += 1) {
+      if (i === 0) {
+        if (j === 0) {
+          output += ('┌')
+        } else if (j === width - 1) {
+          output += ('┐')
+        } else {
+          output += '─'
+        }
+      } else if (i === height - 1) {
+        if (j === 0) {
+          output += ('└')
+        } else if (j === width - 1) {
+          output += ('┘')
+        } else {
+          output += '─'
+        }
+      } else {
+        if (j === 0 || j === width - 1) {
+          output += ('│')
+        } else {
+          output += ' '
+        }
+      }
+    }
+    output += '\n'
+  }
+  return output
 }
 
 
@@ -224,8 +253,27 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  let arr = [
+    'a', 'b', 'c', 'd', 'e', 'f',
+    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+    'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+    'w', 'x', 'y', 'z'
+  ]
+  let output = []
+  str.toLowerCase().split('').forEach(letter => {
+    let idx = arr.indexOf(letter)
+    if (idx === -1) output.push(letter)
+    else idx + 13 >= 26 ? output.push(arr[idx + 13 - 26]) : output.push(arr[idx + 13])
+  })
+  output.forEach((letter, idx) => {
+    console.log(str[idx] + ' и ' + str[idx].toUpperCase())
+    if (str[idx] === str[idx].toUpperCase()) {
+      console.log('hoba')
+      output[idx] = letter.toUpperCase()
+    }
+  })
+  return output.join('')
 }
 
 /**
@@ -241,8 +289,8 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return typeof value === 'string' || value instanceof String;
 }
 
 
@@ -270,8 +318,9 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arr = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣', 'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦', 'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥', 'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠']
+  return arr.indexOf(value)
 }
 
 
