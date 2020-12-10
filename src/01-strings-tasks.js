@@ -4,7 +4,6 @@
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String   *
  *                                                                                           *
  ******************************************************************************************* */
-/* eslint-disable */
 
 /**
  * Returns the result of concatenation of two strings.
@@ -176,7 +175,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-  const re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+  const re = /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
   return str.split(';').filter((text) => re.test(text));
 }
 
@@ -204,36 +203,34 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-  let output = ''
+  let output = '';
   for (let i = 0; i < height; i += 1) {
     for (let j = 0; j < width; j += 1) {
       if (i === 0) {
         if (j === 0) {
-          output += ('┌')
+          output += ('┌');
         } else if (j === width - 1) {
-          output += ('┐')
+          output += ('┐');
         } else {
-          output += '─'
+          output += '─';
         }
       } else if (i === height - 1) {
         if (j === 0) {
-          output += ('└')
+          output += ('└');
         } else if (j === width - 1) {
-          output += ('┘')
+          output += ('┘');
         } else {
-          output += '─'
+          output += '─';
         }
+      } else if (j === 0 || j === width - 1) {
+        output += ('│');
       } else {
-        if (j === 0 || j === width - 1) {
-          output += ('│')
-        } else {
-          output += ' '
-        }
+        output += ' ';
       }
     }
-    output += '\n'
+    output += '\n';
   }
-  return output
+  return output;
 }
 
 
@@ -254,26 +251,28 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-  let arr = [
+  const arr = [
     'a', 'b', 'c', 'd', 'e', 'f',
     'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-    'w', 'x', 'y', 'z'
-  ]
-  let output = []
-  str.toLowerCase().split('').forEach(letter => {
-    let idx = arr.indexOf(letter)
-    if (idx === -1) output.push(letter)
-    else idx + 13 >= 26 ? output.push(arr[idx + 13 - 26]) : output.push(arr[idx + 13])
-  })
-  output.forEach((letter, idx) => {
-    console.log(str[idx] + ' и ' + str[idx].toUpperCase())
-    if (str[idx] === str[idx].toUpperCase()) {
-      console.log('hoba')
-      output[idx] = letter.toUpperCase()
+    'w', 'x', 'y', 'z',
+  ];
+  const output = [];
+  str.toLowerCase().split('').forEach((letter) => {
+    const idx = arr.indexOf(letter);
+    if (idx === -1) output.push(letter);
+    else if (idx + 13 >= 26) {
+      output.push(arr[idx + 13 - 26]);
+    } else {
+      output.push(arr[idx + 13]);
     }
-  })
-  return output.join('')
+  });
+  output.forEach((letter, idx) => {
+    if (str[idx] === str[idx].toUpperCase()) {
+      output[idx] = letter.toUpperCase();
+    }
+  });
+  return output.join('');
 }
 
 /**
@@ -319,8 +318,8 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-  const arr = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣', 'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦', 'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥', 'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠']
-  return arr.indexOf(value)
+  const arr = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣', 'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  return arr.indexOf(value);
 }
 
 
