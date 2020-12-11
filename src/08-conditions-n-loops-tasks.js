@@ -202,8 +202,19 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let newA = a;
+  let newB = b;
+  if (b < a) {
+    const tmp = newA;
+    newA = b;
+    newB = tmp;
+  }
+  let output = '';
+  output += isStartIncluded ? '[' : '(';
+  output += `${newA}, ${newB}`;
+  output += isEndIncluded ? ']' : ')';
+  return output;
 }
 
 
@@ -219,8 +230,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -236,8 +247,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return parseInt(num.toString().split('').reverse().join(''), 10);
 }
 
 
@@ -279,8 +290,13 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let output;
+  if (num > 9) {
+    output = getDigitalRoot(parseInt(num.toString()
+      .split('').reduce((acc, el) => (acc + parseInt(el, 10)), 0), 10));
+  } else output = num;
+  return output;
 }
 
 
@@ -305,8 +321,19 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const brackets = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
+  };
+  str.split('').forEach((char) => {
+    if (stack[stack.length - 1] === char) stack.pop();
+    else stack.push(brackets[char]);
+  });
+  return stack.length === 0;
 }
 
 
@@ -330,8 +357,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -405,8 +432,28 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  let winner;
+  for (let i = 0; i < 3; i += 1) {
+    if (position[0][i] === position[1][i] && position[0][i] === position[2][i]) {
+      winner = position[0][i];
+    }
+  }
+  for (let i = 0; i < 3; i += 1) {
+    if (position[i][0] === position[i][1] && position[i][0] === position[i][2]) {
+      // eslint-disable-next-line prefer-destructuring
+      winner = position[i][0];
+    }
+  }
+  if (position[0][0] === position[1][1] && position[0][0] === position[2][2]) {
+    // eslint-disable-next-line prefer-destructuring
+    winner = position[0][0];
+  }
+  if (position[2][0] === position[1][1] && position[2][0] === position[0][2]) {
+    // eslint-disable-next-line prefer-destructuring
+    winner = position[2][0];
+  }
+  return winner;
 }
 
 
