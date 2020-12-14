@@ -122,8 +122,8 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  return (rect1.left + rect1.width > rect2.left) && (rect1.top + rect1.height > rect2.top);
 }
 
 
@@ -272,8 +272,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  ccn.toString().split('').reverse().forEach((digit, idx) => {
+    if (idx % 2 === 0) {
+      sum += parseInt(digit, 10);
+    } else {
+      let tmpNum = parseInt(digit, 10) * 2;
+      if (tmpNum > 9) {
+        tmpNum = 1 + (tmpNum % 10);
+      }
+      sum += tmpNum;
+    }
+  });
+  return sum % 10 === 0;
 }
 
 /**
@@ -374,8 +386,18 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let output = '';
+  if (!pathes.every((path) => path[0] === '/')) return '';
+  pathes[0].split('/').forEach((part, partIdx) => {
+    let areEqual = true;
+    pathes.forEach((path) => {
+      if (path.split('/')[partIdx] !== part) areEqual = false;
+    });
+    if (areEqual) output += `${part}/`;
+    return output;
+  });
+  return output;
 }
 
 
@@ -397,8 +419,20 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const output = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    const row = [];
+    for (let k = 0; k < m2[0].length; k += 1) {
+      let counter = 0;
+      for (let j = 0; j < m1[0].length; j += 1) {
+        counter += m1[i][j] * m2[j][k];
+      }
+      row.push(counter);
+    }
+    output.push(row);
+  }
+  return output;
 }
 
 
